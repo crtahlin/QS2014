@@ -18,7 +18,7 @@ shinyUI(
                   choices=c("AIRS CSV"="AIRS",
                             "CSV (not supported)"="CSV")),
       
-      fileInput(inputId="dataFileAIRS", label="HR data file"),
+      fileInput(inputId="dataFileAIRS", label="HR data file", multiple=TRUE),
       
       dateRangeInput(inputId="dateRange", 
                      label="Date range",
@@ -64,11 +64,12 @@ shinyUI(
       tabsetPanel(
         
         tabPanel(title="Graphs",
-                 plotOutput("plot")
+                 plotOutput("plot"),
+                 plotOutput("plotHP")
                  ),
       
         tabPanel(title="HP Data",
-               p("Some data points."),        
+               p("100 random data points."),        
                tableOutput("dataHP")),
         
         tabPanel(title="Fitbit data",
