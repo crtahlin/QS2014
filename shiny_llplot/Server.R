@@ -1,6 +1,9 @@
 # Server part of the llplot shiny app
 # Author:Crt Ahlin
 
+# set maximus size of file upload
+options(shiny.maxRequestSize=30*1024^2)
+
 # library for interactive web pages
 library(shiny)
 
