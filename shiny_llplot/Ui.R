@@ -64,7 +64,7 @@ shinyUI(
         
         tabPanel(title="Graphs",
                  plotOutput("plot"),
-                 plotOutput("plotHP")
+                 plotOutput("plotHP", height="auto")
                  ),
       
         tabPanel(title="HP Data",
