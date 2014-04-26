@@ -13,6 +13,9 @@ library(AIRSDataImport)
 # library for plotting
 library(ggplot2)
 
+# library fo GAM
+library(mgcv)
+
 shinyServer( function(input, output, session) {
   
   plotHeight <- function() {
