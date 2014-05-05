@@ -34,10 +34,11 @@ shinyUI(
       
       selectInput(inputId="selectedPlotMethod",
                   label="Select plotting method",
-                  choices=c("Cyclic cubic polynomial (not implemented)"="cycCubPoly",
+                  choices=c("No smoother" = "noSmooth",
+                            "Cyclic cubic polynomial (not implemented)"="cycCubPoly",
                             "Cyclic fractional polynomial (not implemented)"="cycFracPoly",
                             "Cyclic GAM smoother"="cycGAMSmooth"),
-                  selected="cycGAMSmooth", multiple=TRUE),
+                  selected="cycGAMSmooth", multiple=FALSE),
       
       fileInput(inputId="dataFileFitbit",label="Fitbit data file") #,
       
@@ -58,7 +59,7 @@ shinyUI(
       tabsetPanel(
         
         tabPanel(title="Graphs",
-                 plotOutput("plot"),
+                 #plotOutput("plot"),
                  plotOutput("plotHP", height="auto")
                  ),
       

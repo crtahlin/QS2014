@@ -23,8 +23,13 @@ shinyServer( function(input, output, session) {
     if(input$selectedFacet == "dayFacet") {
     height <- min(as.numeric(input$dateRange[2]- input$dateRange[1])*350,
                   4000)
-    } else {
-    height <- 700}
+    return(height)
+    } 
+    if (input$selectedFacet == "weekdayFacet") {
+      height <- 7*300
+      return(height)
+    } 
+    height <- 700
     return(height)
     } else {return(0)}
   }
@@ -103,8 +108,12 @@ shinyServer( function(input, output, session) {
       p <- ggplot(data=dataHPFiltered()) + 
         theme_bw() + 
         geom_point(aes(x=CyclicTime, y=Value), alpha=0.1) + 
-        scale_x_continuous(limits=c(0,1)) +
-        geom_smooth(aes(x=CyclicTime, y=Value), size=2, method="gam", formula = y~s(x, bs="cc"))
+        scale_x_continuous(limits=c(0,1)) 
+        
+      # should smoother be ploted?
+      if (input$selectedPlotMethod == "cycGAMSmooth") {
+      p <- p + geom_smooth(aes(x=CyclicTime, y=Value), size=2, method="gam", formula = y~s(x, bs="cc"))
+      }
       
       # faceting by weekday
       if (input$selectedFacet == "weekdayFacet") { 
