@@ -21,7 +21,7 @@ shinyUI(
       
       dateRangeInput(inputId="dateRange", 
                      label="Date range",
-                     start="2013-01-01",
+                     start="2014-04-01",
                      format="d.m.yyyy" ),
       
       selectInput(inputId="selectedFacet",
@@ -39,24 +39,19 @@ shinyUI(
                             "Cyclic GAM smoother"="cycGAMSmooth"),
                   selected="cycGAMSmooth", multiple=TRUE),
       
-      fileInput(inputId="dataFileFitbit",label="Fitbit data file"),
+      fileInput(inputId="dataFileFitbit",label="Fitbit data file") #,
       
       # checkboxInput(inputId="drawFitbit",label="Draw fitbit data",value=TRUE),
-      
-      selectInput(inputId="selectedFitbitVars",
-                  label="Select Fitbit variables",
-                  choices=c(
-                    "Steps"="steps",
-                    "Minutes sedentary"="minutesSedentary",
-                    "Minutes lightly active"="minutesLightlyActive",
-                    "Minutes fairly active"="minutesFairlyActive",
-                    "Minutes very active"="minutesVeryActive",
-                    "Time in bed"="timeInBed",
-                    "Minutes asleep"="minutesAsleep",
-                    "Minutes awake"="minutesAwake",
-                    "Times awaken"="awakeningsCount"),
-                  selected="steps",
-                  multiple=TRUE)
+#       
+#       selectInput(inputId="selectedFitbitVars",
+#                   label="Select Fitbit variables",
+#                   choices=c(
+#                     "Steps"="steps",                                       
+#                     "Minutes very active"="minutesVeryActive",
+#                     "Minutes asleep"="minutesAsleep",
+#                     "Times awaken"="awakeningsCount"),
+#                   selected="steps",
+#                   multiple=TRUE)
       
     ),
     mainPanel(
