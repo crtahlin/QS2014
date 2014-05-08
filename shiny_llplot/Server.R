@@ -17,7 +17,7 @@ library(ggplot2)
 library(mgcv)
 
 shinyServer( function(input, output, session) {
-  
+    
   # load the demo data ####
   load("DemoData.Rdata")
   
@@ -108,12 +108,16 @@ shinyServer( function(input, output, session) {
   })
   
   output$dataHP <- renderTable(if (!is.null(dataHP())) {
-    dataHP()[sample(seq(dim(dataHP())[1]), size=100),
+    data <- dataHP()[sample(seq(dim(dataHP())[1]), size=100),
                                          c("Value", "CyclicTime", "Weekday", "Day")] 
+    data$Day <- as.character(data$Day)
+    return(data)
     })
   
   output$dataFitbit <- renderTable(if (!is.null(dataFitbitFiltered())) {
-    head(dataFitbitFiltered(), n=100)
+    data <- head(dataFitbitFiltered(), n=100)
+    data$Day <- as.character(data$Day)
+    return(data)
     })
   
   output$plot <- renderPlot(

@@ -10,7 +10,7 @@ shinyUI(
     
     headerPanel("Heart rate and other life logging data"),              
     sidebarPanel(
-    
+    helpText("version: 0.1"),
       h5("Demo data is plotted by default, if no user data is uploaded. Feel free to experiment."),
       hr(),
       h5("Heart rate data can currently only be uploaded in the CSV format exported from the AIRS app. See: "),
