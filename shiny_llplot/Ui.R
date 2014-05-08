@@ -10,37 +10,57 @@ shinyUI(
     
     headerPanel("Heart rate and other life logging data"),              
     sidebarPanel(
-      helpText("Upload heart rate data in AIRS or format."),
+    
+      h5("Demo data is plotted by default, if no user data is uploaded. Feel free to experiment."),
+      hr(),
+      h5("Heart rate data can currently only be uploaded in the CSV format exported from the AIRS app. See: "),
+      a("http://tecvis.co.uk/software/airs/synchronise",href="http://tecvis.co.uk/software/airs/synchronise"),
       
       selectInput(inputId="selectedFormat",
-                  label="Select data format",
+                  label="Select data format:",
                   selected="AIRS", 
                   choices=c("AIRS CSV"="AIRS")),
       
       fileInput(inputId="dataFileAIRS", label="HR data file", multiple=TRUE),
       
+      hr(),
+      h5("The defult date range covers all of the demo data."),
       dateRangeInput(inputId="dateRange", 
-                     label="Date range",
-                     start="2014-04-01",
+                     label="Date range:",
+                     start="2014-04-23",
+                     end="2014-04-29",
                      format="d.m.yyyy" ),
       
+      hr(),
+      h5("Different levels of detail (faceting) are possible."),
       selectInput(inputId="selectedFacet",
-                  label="Faceting by", choices=c(
+                  label="Faceting by:", choices=c(
                     "No faceting"="noFacet",
                     "Day of the week"="weekdayFacet",
                     "Day"="dayFacet" ),
                   selected="noFacet",
                   multiple=FALSE),
       
+      hr(),
+      h5("Only one kind of 'typical' curve is supported at the moment. "),
       selectInput(inputId="selectedPlotMethod",
-                  label="Select plotting method",
+                  label="Select curve type:",
                   choices=c("No smoother" = "noSmooth",
                             "Cyclic cubic polynomial (not implemented)"="cycCubPoly",
                             "Cyclic fractional polynomial (not implemented)"="cycFracPoly",
                             "Cyclic GAM smoother"="cycGAMSmooth"),
                   selected="cycGAMSmooth", multiple=FALSE),
       
-      fileInput(inputId="dataFileFitbit",label="Fitbit data file") #,
+      hr(),
+      h5("
+               Fitbit data can be uploaded in CSV format as exported from Google spreadsheets.
+               How to get the data into Google spreadsheets is described in:"),
+      a("http://quantifiedself.com/2013/02/how-to-download-fitbit-data-using-google-spreadsheets/",
+        href=" http://quantifiedself.com/2013/02/how-to-download-fitbit-data-using-google-spreadsheets/"),
+      fileInput(inputId="dataFileFitbit",label="Fitbit data file"), #,
+      
+      h5("The code for this app can be found on Github, where you can also post suggestions and bug reports (as issues). See:"),
+      a("https://github.com/crtahlin/QS2014",href="https://github.com/crtahlin/QS2014")
       
       # checkboxInput(inputId="drawFitbit",label="Draw fitbit data",value=TRUE),
 #       
@@ -59,8 +79,7 @@ shinyUI(
       tabsetPanel(
         
         tabPanel(title="Graphs",
-                 #plotOutput("plot"),
-                 plotOutput("plotHP", height="auto")
+                plotOutput("plotHP", height="auto")
                  ),
       
         tabPanel(title="HP Data",

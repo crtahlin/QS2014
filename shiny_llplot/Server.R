@@ -18,6 +18,10 @@ library(mgcv)
 
 shinyServer( function(input, output, session) {
   
+  # load the demo data ####
+  load("DemoData.Rdata")
+  
+  # set plot heights ####
   plotHeight <- function() {
     if(!is.null(dataHPFiltered())) {
     if(input$selectedFacet == "dayFacet") {
@@ -40,6 +44,12 @@ shinyServer( function(input, output, session) {
     data <- AIRSImportMultiple(dataFilesAIRS=input$dataFileAIRS, sensor="HP")  
     data$Day <- as.Date(data$Day, format="%d.%m.%Y")
     return(data)
+    } else { # if no user data loaded, use demo data
+    # sample a smaller data set
+      set.seed(1234)
+      data <- AIRSDemoData[sample(1:dim(AIRSDemoData)[1], size=40000),]
+      data$Day <- as.Date(data$Day, format="%d.%m.%Y")
+      return(data)
     }
   })
   
@@ -58,6 +68,14 @@ shinyServer( function(input, output, session) {
   dataFitbit <- reactive(function(){
     if(!is.null(input$dataFileFitbit)) {
     data <- read.csv(file=input$dataFileFitbit$datapath)  
+    # import only some variables (that carry relevant info)
+    data <- data[,c("date", "steps", "minutesAsleep", "awakeningsCount", "minutesVeryActive")]
+    data$date <- as.Date(data$date, format="%d.%m.%Y")
+    #data[,"date"] <- as.Date(data[,"date"], format="%d.%m.%Y")
+    colnames(data)[which(colnames(data)=="date")] <- "Day"
+    return(data)
+    } else { # if no user data is uploaded, use demo data
+    data <- FitbitDemoData
     # import only some variables (that carry relevant info)
     data <- data[,c("date", "steps", "minutesAsleep", "awakeningsCount", "minutesVeryActive")]
     data$date <- as.Date(data$date, format="%d.%m.%Y")
@@ -107,12 +125,12 @@ shinyServer( function(input, output, session) {
       
       p <- ggplot(data=dataHPFiltered()) + 
         theme_bw() + 
-        geom_point(aes(x=CyclicTime, y=Value), alpha=0.1) + 
-        scale_x_continuous(limits=c(0,1)) 
+        geom_point(aes(x=CyclicTime, y=Value), alpha=0.2) + 
+        scale_x_continuous(breaks=c(0,0.25,0.5,0.75,1),labels=c("midnight","6 o'clock","noon","18 o'clock","midnight")) 
         
       # should smoother be ploted?
       if (input$selectedPlotMethod == "cycGAMSmooth") {
-      p <- p + geom_smooth(aes(x=CyclicTime, y=Value), size=2, method="gam", formula = y~s(x, bs="cc"))
+      p <- p + geom_smooth(aes(x=CyclicTime, y=Value), size=2, method="gam", formula = y~s(x, bs="cc"), se=FALSE)
       }
       
       # faceting by weekday
